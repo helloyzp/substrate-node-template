@@ -253,6 +253,55 @@ impl pallet_balances::Config for Runtime {
 	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
 
+
+
+
+
+
+//////////////////////////////// add Nicks pallet /////////////////////////////////////
+
+/// Add this code block to your template for Nicks:
+parameter_types! {
+    // Choose a fee that incentivizes desireable behavior.
+    pub const NickReservationFee: u128 = 100;
+    pub const MinNickLength: usize = 8;
+    // Maximum bounds on storage are important to secure your chain.
+    pub const MaxNickLength: usize = 32;
+}
+
+//为runtime实现 FRAME pallet的`Config`接口
+impl pallet_nicks::Config for Runtime {
+	// The Balances pallet implements the ReservableCurrency trait.
+	// `Balances` is defined in `construct_runtimes!` macro. See below.
+	// https://substrate.dev/rustdocs/latest/pallet_balances/index.html#implementations-2
+	type Currency = Balances;
+
+	// Use the NickReservationFee from the parameter_types block.
+	type ReservationFee = NickReservationFee;
+
+	// No action is taken when deposits are forfeited.
+	type Slashed = ();
+
+	// Configure the FRAME System Root origin as the Nick pallet admin.
+	// https://substrate.dev/rustdocs/latest/frame_system/enum.RawOrigin.html#variant.Root
+	type ForceOrigin = frame_system::EnsureRoot<AccountId>;
+
+	// Use the MinNickLength from the parameter_types block.
+	type MinLength = MinNickLength;
+
+	// Use the MaxNickLength from the parameter_types block.
+	type MaxLength = MaxNickLength;
+
+	// The ubiquitous event type.
+	type Event = Event;
+}
+
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
 parameter_types! {
 	pub const TransactionByteFee: Balance = 1;
 }
@@ -291,6 +340,12 @@ construct_runtime!(
 		Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template::{Pallet, Call, Storage, Event<T>},
+
+
+		//添加Nicks： add the Nicks pallet to the construct_runtime! macro.
+		//Nicks是pallet的名称，pallet_nicks是这个Substrate pallet的Rust的 module/crate名称
+		//即Nicks是pallet的名称，pallet_nicks是crate的名称
+		Nicks: pallet_nicks::{Pallet, Call, Storage, Event<T>},
 	}
 );
 
