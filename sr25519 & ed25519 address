@@ -1,0 +1,72 @@
+node1.
+subkey generate --scheme sr25519
+Secret phrase `expose cable thank nasty cruise lamp select lottery jeans pretty primary chest` is account:
+  Secret seed:      0xf10449e18a8dbf72e74401dee7d8bf06abdb08b4e2223402ff3e3ad266ec8fce
+  Public key (hex): 0x803758e8fed636e248b26890978c2adc40681ce994328d294b7c3ebb7c648b10
+  Account ID:       0x803758e8fed636e248b26890978c2adc40681ce994328d294b7c3ebb7c648b10
+  SS58 Address:     5ExpRmzxe841ZVu84fPpcmVeGHsjYm3h1BWB1H9tU36uN7Hk
+
+
+subkey inspect --scheme ed25519 "expose cable thank nasty cruise lamp select lottery jeans pretty primary chest"
+Secret phrase `expose cable thank nasty cruise lamp select lottery jeans pretty primary chest` is account:
+  Secret seed:      0xf10449e18a8dbf72e74401dee7d8bf06abdb08b4e2223402ff3e3ad266ec8fce
+  Public key (hex): 0x4c62075832ea21d22cb64246e2d7a77dca10921bee8caa8245ab9378d9e7fead
+  Account ID:       0x4c62075832ea21d22cb64246e2d7a77dca10921bee8caa8245ab9378d9e7fead
+  SS58 Address:     5Dnrcjr2gEtzWjqyLDagZvZ6PZA4XTATgytVtwMRqZgRDV1D
+
+
+
+node2.
+subkey generate --scheme sr25519
+Secret phrase `list venture escape intact cinnamon what dice post split gather ice trim` is account:
+  Secret seed:      0x8475016a0409a887ed9af8aa430e0c86790cdacdff336d1cf55d70c22d739cc9
+  Public key (hex): 0x9ec394c7383667193d3d67c47a9d740429ca62604140fed8981616066e2ec244
+  Account ID:       0x9ec394c7383667193d3d67c47a9d740429ca62604140fed8981616066e2ec244
+  SS58 Address:     5FesXGZrQX2RdLY9HmbExxtCY1L333hLXQvqCfiPdk1w1dYG
+
+
+subkey inspect --scheme ed25519 "list venture escape intact cinnamon what dice post split gather ice trim"
+Secret phrase `list venture escape intact cinnamon what dice post split gather ice trim` is account:
+  Secret seed:      0x8475016a0409a887ed9af8aa430e0c86790cdacdff336d1cf55d70c22d739cc9
+  Public key (hex): 0xa52188f0e4a57041af8c54b19dbb950779dbe450870fadbb8d1da746a1c0c6c8
+  Account ID:       0xa52188f0e4a57041af8c54b19dbb950779dbe450870fadbb8d1da746a1c0c6c8
+  SS58 Address:     5FoDiidwP18xUaGg8J1RYiomzfdKa1gimaJzZi4tkceftUJJ
+
+
+
+
+
+启动node1
+
+# start node01
+./target/release/node-template \
+  --base-path /tmp/node01 \
+  --chain ./customSpecRaw.json \
+  --port 30333 \
+  --ws-port 9945 \
+  --rpc-port 9933 \
+  --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
+  --validator \
+  --rpc-methods Unsafe \
+  --name MyNode01
+
+
+#记下nodeid: 12D3KooWK2Fis9edEDbaCn3yktHsopFyVxvuirm6pV6FwUkJ25pq
+
+
+
+启动node2
+
+./target/release/node-template \
+  --base-path /tmp/node02 \
+  --chain ./customSpecRaw.json \
+  --port 30334 \
+  --ws-port 9946 \
+  --rpc-port 9934 \
+  --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
+  --validator \
+  --rpc-methods Unsafe \
+  --name MyNode02 \
+  --bootnodes /ip4/127.0.0.1/tcp/30333/p2p/12D3KooWK2Fis9edEDbaCn3yktHsopFyVxvuirm6pV6FwUkJ25pq
+
+#记下nodeid: 12D3KooWPzcciQZWw1vBEJSn9LxnPo8fhrvwDEkeyu5dUNTtouQP
