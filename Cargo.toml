@@ -6,4 +6,5 @@ members = [
 	'node',
 	'pallets/*',
 	'runtime',
+	'pallets/test-pallet', #新增test-pallet
 ]
